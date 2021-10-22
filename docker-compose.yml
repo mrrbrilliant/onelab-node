@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  mongo:
+    build:
+      context: .
+      dockerfile: ./images/mongo/Dockerfile
+    container_name: onelab_mongo
+    environment:
+      # MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/app_mongo_root_password
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      # MONGO_PASSWORD_FILE: /run/secrets/app_mongo_password
+      # MONGO_INITDB_DATABASE: "onelab_control_mongo"
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_INITDB_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_PASSWORD: ${MONGO_PASSWORD}
+    # secrets:
+    #   - app_mongo_password
+    #   - app_mongo_root_password
+    volumes:
+      - ./database:/data/db
+    ports:
+      - 27016:27017
+# secrets:
+#   app_mongo_password:
+#     file: ./secrets/db_user_password.txt
+#   app_mongo_root_password:
+#     file: ./secrets/db_root_password.txt
+
