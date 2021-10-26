@@ -1,11 +1,10 @@
 const express = require("express");
-const { json } = require("body-parser");
-const jayson = require("jayson");
 const { connect } = require("mongoose");
+const { json } = require("body-parser");
+const { graphqlHTTP } = require("express-graphql");
+const schema = require("./services/graphql");
 // env
-require("dotenv").config().config({ path: "../.env" });
-
-const methods = require("./server");
+require("dotenv").config({ path: "../../.env" });
 
 // Global variables
 const app = express();
@@ -19,29 +18,21 @@ const {
 	// server
 	EXPRESS_ADDRESS,
 	EXPRESS_PORT,
+	NODE_ENV,
 } = process.env;
 const uri = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_ADDRESS}:${MONGO_PORT}/${MONGO_INITDB_DATABASE}`;
 
 function main() {
-	const server = new jayson.Server(methods, {
-		useContext: true,
-		params: Object,
-	});
-
 	app.use(json());
-	app.use("/api", function (req, res, next) {
-		const context = { headers: req.headers };
-
-		server.call(req.body, context, function (err, result) {
-			if (err) {
-				res.send(err || {});
-			}
-			res.send(result || {});
-		});
-	});
-
-	app.listen(SERVER_PORT, () => {
-		console.log(`OneLab Server: http://${ADDRESS}:${SERVER_PORT}`);
+	app.use(
+		"/api/graphql",
+		graphqlHTTP({
+			schema: schema,
+			graphiql: NODE_ENV === "production" ? false : true,
+		})
+	);
+	app.listen(EXPRESS_PORT, EXPRESS_ADDRESS, () => {
+		console.log(`OneLab Server: http://${EXPRESS_ADDRESS}:${EXPRESS_PORT}`);
 	});
 }
 

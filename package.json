@@ -1,0 +1,11 @@
+{
+    "name": "onelab-node",
+    "workspaces": [
+      "packages/server"
+    ],
+    "scripts": {
+      "db": "docker-compose up -d",
+      "sv:dev": "npm run dev -w onelab-server",
+      "sv:prod": "npm run prod -w onelab-server"
+    }
+}
