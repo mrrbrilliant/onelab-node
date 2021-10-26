@@ -19,16 +19,9 @@ EXPRESS_ADDRESS=
 EXPRESS_PORT=
 ```
 
-Database
+Run the following command in your command line terminal
 
 ```bash
-docker-compose --env-file .env up -d
-```
-
-Server
-
-```bash
-cd server
-npm install
-npm run dev
+npm run db              # to start database on docker
+npm run sv:dev          # to start the server
 ```
