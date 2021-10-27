@@ -17,6 +17,8 @@ MONGO_ADDRESS=
 MONGO_PORT=
 EXPRESS_ADDRESS=
 EXPRESS_PORT=
+# For JWT token signing
+SECRET=
 ```
 
 Run the following command in your command line terminal
