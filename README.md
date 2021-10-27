@@ -4,7 +4,7 @@
 
 ENV file is required in the project root directory with the following keys:
 
-[.env]()
+##### **`.env`**
 ```bash
 # For MongoDB
 MONGO_ROOT_USER=
