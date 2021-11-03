@@ -3,7 +3,7 @@ const { model, Schema } = require("mongoose");
 module.exports = model(
 	"PROFILE",
 	new Schema({
-		owner_id: { type: String, required: true, unique: true },
+		user_id: { type: String, required: true, unique: true },
 		firstName: String,
 		lastName: String,
 		gender: {

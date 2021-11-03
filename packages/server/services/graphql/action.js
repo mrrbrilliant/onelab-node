@@ -9,7 +9,7 @@ const ActionType = new GraphQLObjectType({
 		name: String,
 		description: String,
 		actions: String,
-		workspace_id: String,
+		school_id: String,
 	},
 });
 
@@ -17,8 +17,8 @@ const getAllActions = async (root, args, context) => {
 	return await ACTION.find();
 };
 
-const getActionsByWorkspace = async (root, { workspace_id }, context) => {
-	return await ACTION.find({ workspace_id: workspace_id });
+const getActionsByWorkspace = async (root, { school_id }, context) => {
+	return await ACTION.find({ school_id: school_id });
 };
 
 const getActionByID = async (root, { id }, context) => {
@@ -48,7 +48,7 @@ const ActionQueries = {
 	getActionsByWorkspace: {
 		type: GraphQLList(ActionType),
 		args: {
-			workspace_id: IDNonNull,
+			school_id: IDNonNull,
 		},
 		resolve: getActionsByWorkspace,
 	},
@@ -68,7 +68,7 @@ const ActionMutations = {
 			name: StringNonNull,
 			description: StringNonNull,
 			actions: StringNonNull,
-			workspace_id: StringNonNull,
+			school_id: StringNonNull,
 		},
 		resolve: createAction,
 	},
@@ -79,7 +79,7 @@ const ActionMutations = {
 			name: String,
 			description: String,
 			actions: String,
-			workspace_id: String,
+			school_id: String,
 		},
 		resolve: updateAction,
 	},

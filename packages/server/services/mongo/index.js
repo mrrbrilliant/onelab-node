@@ -3,7 +3,7 @@ const MEMBER = require("./member");
 const PROFILE = require("./profile");
 const ROLE = require("./role");
 const USER = require("./user");
-const WORKSPACE = require("./workspace");
+const SCHOOL = require("./workspace");
 
 module.exports = {
 	ACTION,
@@ -11,5 +11,5 @@ module.exports = {
 	PROFILE,
 	ROLE,
 	USER,
-	WORKSPACE,
+	SCHOOL,
 };

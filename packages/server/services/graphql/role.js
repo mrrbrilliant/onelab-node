@@ -8,7 +8,7 @@ const RoleType = new GraphQLObjectType({
 		id: ID,
 		name: String,
 		description: String,
-		workspace_id: String,
+		school_id: String,
 		authorized_action: String,
 	},
 });
@@ -17,8 +17,8 @@ const getAllRoles = async (root, args, context) => {
 	return await ROLE.find();
 };
 
-const getRolesByWorkspace = async (root, { workspace_id }, context) => {
-	return await ROLE.find({ workspace_id: workspace_id });
+const getRolesByWorkspace = async (root, { school_id }, context) => {
+	return await ROLE.find({ school_id: school_id });
 };
 
 const getRoleByID = async (root, { id }, context) => {
@@ -48,7 +48,7 @@ const RoleQueries = {
 	getRolesByWorkspace: {
 		type: GraphQLList(RoleType),
 		args: {
-			workspace_id: IDNonNull,
+			school_id: IDNonNull,
 		},
 		resolve: getRolesByWorkspace,
 	},
@@ -66,7 +66,7 @@ const RoleMutations = {
 		args: {
 			name: String,
 			description: String,
-			workspace_id: String,
+			school_id: String,
 			authorized_action: String,
 		},
 		resolve: createRole,
@@ -77,7 +77,7 @@ const RoleMutations = {
 			id: IDNonNull,
 			name: String,
 			description: String,
-			workspace_id: String,
+			school_id: String,
 			authorized_action: String,
 		},
 		resolve: updateRole,

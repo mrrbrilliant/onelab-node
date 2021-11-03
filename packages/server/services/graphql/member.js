@@ -7,15 +7,15 @@ const MemberType = new GraphQLObjectType({
 	fields: {
 		id: ID,
 		profile_id: ID,
-		workspace_id: ID,
+		school_id: ID,
 		role_id: ID,
 		created_at: String,
 		expire: String,
 	},
 });
 
-const getAllMemberByWorkspace = async (root, { workspace_id }, context) => {
-	return await MEMBER.find({ workspace_id: workspace_id });
+const getAllMemberByWorkspace = async (root, { school_id }, context) => {
+	return await MEMBER.find({ school_id: school_id });
 };
 
 const getMemberByID = async (root, { id }, context) => {
@@ -41,7 +41,7 @@ const MemberQueries = {
 	getAllMemberByWorkspace: {
 		type: GraphQLList(MemberType),
 		args: {
-			workspace_id: IDNonNull,
+			school_id: IDNonNull,
 		},
 		resolve: getAllMemberByWorkspace,
 	},
@@ -59,7 +59,7 @@ const MemberMutations = {
 		type: MemberType,
 		args: {
 			profile_id: ID,
-			workspace_id: ID,
+			school_id: ID,
 			role_id: ID,
 			created_at: String,
 			expire: String,
@@ -71,7 +71,7 @@ const MemberMutations = {
 		args: {
 			id: ID,
 			profile_id: ID,
-			workspace_id: ID,
+			school_id: ID,
 			role_id: ID,
 			created_at: String,
 			expire: String,

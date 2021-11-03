@@ -26,10 +26,11 @@ function main() {
 	app.use(json());
 	app.use(
 		"/api/graphql",
-		graphqlHTTP({
+		graphqlHTTP((req, res) => ({
 			schema: schema,
 			graphiql: NODE_ENV === "production" ? false : true,
-		})
+			context: req.headers,
+		}))
 	);
 	app.listen(EXPRESS_PORT, EXPRESS_ADDRESS, () => {
 		console.log(`OneLab Server: http://${EXPRESS_ADDRESS}:${EXPRESS_PORT}`);

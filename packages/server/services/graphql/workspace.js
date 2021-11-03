@@ -1,27 +1,32 @@
-const { GraphQLObjectType, GraphQLList } = require("graphql");
+const { GraphQLObjectType, GraphQLList, GraphQLError } = require("graphql");
 const { ID, IDNonNull, String, StringNonNull } = require("./types");
-const { WORKSPACE } = require("../mongo");
+const { SCHOOL } = require("../mongo");
+const { security_guard } = require("./helper");
 
 const WorkspaceType = new GraphQLObjectType({
 	name: "Workspace",
 	fields: {
 		id: ID,
 		name: String,
-		owner_id: ID,
-		parent_workspace_id: ID,
+		user_id: ID,
 	},
 });
 
 const getMyWorkspaces = async (root, args, context) => {
+	await security_guard(root, args, context, {
+		athentication: true,
+		authorization: true,
+	});
+
 	return null;
 };
 
 const getWorkspaceByID = async (root, { id }, context) => {
-	return await WORKSPACE.findById(id);
+	return await SCHOOL.findById(id);
 };
 
 const getWorkspaceByName = async (root, { name }, context) => {
-	return await WORKSPACE.findOne({ name: name });
+	return await SCHOOL.findOne({ name: name });
 };
 
 const WorkspaceQueries = {
@@ -45,19 +50,49 @@ const WorkspaceQueries = {
 	},
 };
 
+const isMember = async () => {};
+
+const isValidAction = () => {};
+
 const createWorkspace = async (root, args, context) => {
-	let new_ws = new WORKSPACE({ ...args });
-	return await new_ws.save();
+	// let auth = false;
+	// try {
+	// 	security_guard(root, args, context, {
+	// 		athentication: true,
+	// 		authorization: true,
+	// 	}).then((msg) => {
+	// 		console.log(msg);
+	// 	});
+	// } catch (error) {
+	// 	throw new GraphQLError(error);
+	// }
+
+	let authenicated = false;
+	let ctx = {};
+	return security_guard(root, args, context, {
+		athentication: true,
+		authorization: true,
+	})
+		.then(async (msg) => {
+			if (msg) {
+				let new_ws = new SCHOOL({ ...args });
+				return await new_ws.save();
+			}
+		})
+		.catch((error) => {
+			console.log(error);
+			return new Error(error);
+		});
 };
 
 const updateWorkspace = async (root, args, context) => {
 	let { id, ...update } = args;
-	await WORKSPACE.findOneAndUpdate({ id }, { ...update });
-	return await WORKSPACE.findById(id);
+	await SCHOOL.findOneAndUpdate({ id }, { ...update });
+	return await SCHOOL.findById(id);
 };
 
 const removeWorkspace = async (root, { id }, context) => {
-	return await WORKSPACE.findOneAndRemove({ _id: id });
+	return await SCHOOL.findOneAndRemove({ _id: id });
 };
 
 const WorkspaceMutations = {
@@ -65,8 +100,7 @@ const WorkspaceMutations = {
 		type: WorkspaceType,
 		args: {
 			name: StringNonNull,
-			owner_id: IDNonNull,
-			parent_workspace_id: ID,
+			user_id: IDNonNull,
 		},
 		resolve: createWorkspace,
 	},
@@ -75,8 +109,7 @@ const WorkspaceMutations = {
 		args: {
 			id: IDNonNull,
 			name: StringNonNull,
-			owner_id: IDNonNull,
-			parent_workspace_id: ID,
+			user_id: IDNonNull,
 		},
 		resolve: updateWorkspace,
 	},

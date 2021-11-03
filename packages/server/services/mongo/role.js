@@ -5,7 +5,7 @@ module.exports = model(
 	new Schema({
 		name: { type: String, required: true },
 		description: { type: String, required: true },
-		workspace_id: { type: String, required: true },
+		school_id: { type: String, required: true },
 		authorized_action: { type: String, required: true },
 	})
 );

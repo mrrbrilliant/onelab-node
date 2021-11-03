@@ -11,7 +11,7 @@ const ProfileType = new GraphQLObjectType({
 		gender: String,
 		dateOfBirth: String,
 		address: String,
-		owner_id: ID,
+		user_id: ID,
 	}),
 });
 
@@ -67,7 +67,7 @@ const ProfileMutations = {
 			gender: String,
 			dateOfBirth: String,
 			address: String,
-			owner_id: IDNonNull,
+			user_id: IDNonNull,
 		},
 		resolve: createProfile,
 	},

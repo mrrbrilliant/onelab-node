@@ -3,13 +3,20 @@ const jwt = require("jsonwebtoken");
 const { GraphQLObjectType, GraphQLList, GraphQLString } = require("graphql");
 const { String, ID, IDNonNull, StringNonNull } = require("./types");
 const { hash_password, compare_password } = require("./helper");
-const { USER } = require("../mongo");
+const { USER, PROFILE } = require("../mongo");
+const { ProfileType } = require("./profile");
 
 const UserType = new GraphQLObjectType({
 	name: "User",
 	fields: () => ({
 		id: ID,
 		email: String,
+		profile: {
+			type: ProfileType,
+			resolve: async (root, args, context) => {
+				return await PROFILE.findOne({ user_id: root.id });
+			},
+		},
 	}),
 });
 

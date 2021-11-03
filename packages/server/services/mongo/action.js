@@ -6,6 +6,6 @@ module.exports = model(
 		name: { type: String, required: true },
 		description: { type: String, required: true },
 		action: { type: String, enum: [] },
-		workspace_scope: { type: String, required: true },
+		school_id: { type: String, required: true },
 	})
 );

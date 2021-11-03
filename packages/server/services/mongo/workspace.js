@@ -1,10 +1,10 @@
 const { model, Schema } = require("mongoose");
 
 module.exports = model(
-	"WORKSPACE",
+	"SCHOOL",
 	new Schema({
 		name: { type: String, required: true, unique: true },
-		owner_id: { type: String, required: true },
+		user_id: { type: String, required: true },
 		parent_workspace_id: { type: String, default: "" },
 	})
 );
